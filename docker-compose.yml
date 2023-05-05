@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+    # image project
+    app-api:
+        build:
+            args:
+                user: odenilson
+                uid: 1000
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - redis
+        networks:
+            - net-laravel-api-cache
+
+    # nginx
+    nginx:
+        image: nginx:alpine
+        restart: always
+        ports: 
+            - "8989:80"
+        volumes: 
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks: 
+            - net-laravel-api-cache
+
+    # db mysql
+    mysql:
+        image: mysql:5.7.22
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "3388:3306"
+        networks:
+            - net-laravel-api-cache
+
+    # queue
+    queue:
+        build:
+            args:
+                user: odenilson
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        restart: always
+        command: "php artisan queue:work"
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - redis
+        networks:
+            - net-laravel-api-cache
+
+    # redis
+    redis:
+        image: redis:latest
+        networks:
+            - net-laravel-api-cache
+
+networks:
+    net-laravel-api-cache:
+        driver: bridge
