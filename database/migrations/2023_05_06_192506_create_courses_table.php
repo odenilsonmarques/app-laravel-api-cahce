@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid'); //esse atributo gera um sequencia de caracteres dinamicos para cada insert. optou-se por usá-lo ao inves de mostrar os id(primary key) de cada registro
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
