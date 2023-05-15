@@ -23,4 +23,24 @@ class CourseRepository
     {
         return $this->entity->create($data);
     }
+
+    public function getCourseByUuid($identity)
+    {
+        return $this->entity->where('uuid', $identity)->firstOrFail();//esse metoho firstOrFail() retorna o primeiro registro, caso nao encontre retorna 404
+    }
+
+    public function deleteCourseByUuid(string $identity)
+    {
+        $course = $this->getCourseByUuid($identity);
+
+        return $course->delete();
+    }
+
+    public function updateCourseByUuid(string $identify, array $data)
+    {
+        //recuperando o curso a ser editado
+        $course = $this->getCourseByUuid($identify);
+
+        return $course->update($data);
+    }
 }

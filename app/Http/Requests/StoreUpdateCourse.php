@@ -23,8 +23,12 @@ class StoreUpdateCourse extends FormRequest
      */
     public function rules()
     {
+        //pegando o parametro definido na rota edicao que declarei como identify, mas poderia ser qualquer nome. Verifica se esse paremetro existe caso contrario pega o valor null
+        $uuid = $this->identify ?? '';
+
         return [
-            'name' => ['required','min:3', 'max:255','unique:courses'],
+            // 'name' => ['required','min:3', 'max:255','unique:courses'],
+            'name' => ['required','min:3', 'max:255',"unique:courses,name,{$uuid},uuid"],//definindo que a coluna nome do curso é unico, porem o resto pode ser alterado
             'description' => ['nullable','min:3','max:255'],
         ];
     }

@@ -37,19 +37,38 @@ class CourseController extends Controller
     }
 
     
-    public function show($id)
+    //metodo para recuperar um registro por vez passando nesse caso usando o uuid
+    public function show($identify)
     {
-        //
+        $course = $this->courseService->getCourse($identify);
+
+        return new CourseResource($course);
     }
 
-    public function update(Request $request, $id)
+
+
+
+    public function update(StoreUpdateCourse $request, $identify)
     {
-        //
+        $this->courseService->updateCourse($identify, $request->validated());
+
+        return response()->json(['message' => 'updated']); //nesse caso o status code ja é 200, então não preciso passar o status
+    }
+
+
+
+
+
+    public function destroy($identify)
+    {
+        $this->courseService->deleteCourse($identify);
+
+        return response()->json([], 204); // caso o regitro for realmente deletado , será exibido somente o status 204 (NO CONTENT)
+
     }
 
    
-    public function destroy($id)
-    {
-        //
-    }
+
+   
+   
 }

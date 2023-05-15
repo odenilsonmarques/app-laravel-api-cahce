@@ -23,4 +23,19 @@ class CourseService
     {
         return $this->repository->createCourse($data);
     }
+
+    public function getCourse(string $identify)
+    {
+        return $this->repository->getCourseByUuid($identify);
+    }
+
+    public function deleteCourse(string $identify)//recebendo o identificador do curso
+    {
+        return $this->repository->deleteCourseByUuid($identify);
+    }
+
+    public function updateCourse(string $identify, array $data)//recebendo o identificador do curso, e  um array com os dados para atualizar
+    {
+        return $this->repository->updateCourseByUuid($identify, $data);
+    }
 }
