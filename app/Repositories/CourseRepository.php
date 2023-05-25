@@ -16,7 +16,13 @@ class CourseRepository
 
     public function getAllCourses()
     {
-        return $this->entity->get(); //return courses all
+        //return courses all. Nesse caso, como ha um relacionamento entre cursos e modulos, pode ser que essa consulta fique sobre carregada, pois pra cada module é feito uma query.(ver isso no telescoe)
+        // return $this->entity->get(); 
+
+        //nesse caso estou usando o recurso do eloquente para deixar a consulta mais leve, com mais peformance. 
+        return $this->entity->with('modules')->get(); 
+
+
     }
 
     public function createCourse(Array $data)
