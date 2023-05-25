@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Course;
+use Illuminate\Support\Facades\Cache;
 
 class CourseRepository
 {
@@ -20,7 +21,17 @@ class CourseRepository
         // return $this->entity->get(); 
 
         //nesse caso estou usando o recurso do eloquente para deixar a consulta mais leve, com mais peformance. 
-        return $this->entity->with('modules')->get(); 
+        // return $this->entity->with('modules')->get(); 
+
+
+        //guardando e consumindo dados em cache
+        //1º verifica se tem um cache chamado courses(poderia ser outro nome, pois é apenas uma chave de identificação)a cada 60 segundo, se tiver não é realizado uma nova query, ou seja pega os dados em memoria(cache). Caso contrario, uma nova consulta ao banco é feita
+        return Cache::remember('courses', 60, function (){
+
+            return $this->entity->with('modules')->get(); 
+
+        });
+
 
 
     }
