@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
-class CourseResource extends JsonResource
+class ModuleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,14 +17,9 @@ class CourseResource extends JsonResource
     {
         //dessa forma retorna todos os dados
         // return parent::toArray($request);
-
-        //dessa forma se defini os dados a serem retornados
         return [
-            'identify' => $this->uuid,
             'name' => $this->name,
-            'description' => $this->description,
-            'date' => Carbon::make($this->created_at)->format('Y-m-d'),
-            'modules' => $this->modules //essa linha é para retornar todos os módulos de um curso
+            'identify' => $this->uuid
         ];
     }
 }

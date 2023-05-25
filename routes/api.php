@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\Api\{
-    CourseController
+    CourseController,
+    ModuleController
 };
 
 
 // use App\Http\Controllers\FilterReleaseController;
 
 use Illuminate\Support\Facades\Route;
+
+//-----------Routes for Course-----------------
 
 //route for all courses search 
 Route::get('/courses', [CourseController::class,'index']);
@@ -22,7 +25,18 @@ Route::get('/courses/{identify}', [CourseController::class, 'show']);
 Route::delete('/courses/{identify}', [CourseController::class, 'destroy']);
 
 //route for edit data
-Route::put('courses/{identify}', [CourseController::class, 'update']);
+Route::put('/courses/{identify}', [CourseController::class, 'update']);
+
+
+//-----------Routes for Modulues-----------------
+
+
+//passando na rota o curso e os modulos ligado a esse curso. Onde tem {course} é o nome do curso a ser passa na rota seguido do modulo
+Route::apiResource('/courses/{course}/modules',ModuleController::class);
+
+
+
+
 
 
 

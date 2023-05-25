@@ -9,9 +9,9 @@ class Module extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'course_id'];
 
-    //netodo para relacionar um ou mais modulo a um curso
+    //metodo para relacionar um ou mais modulo a um curso
     public function course()
     {
         return $this->belongsTo(Course::class);

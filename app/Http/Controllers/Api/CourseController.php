@@ -46,18 +46,12 @@ class CourseController extends Controller
     }
 
 
-
-
     public function update(StoreUpdateCourse $request, $identify)
     {
         $this->courseService->updateCourse($identify, $request->validated());
 
         return response()->json(['message' => 'updated']); //nesse caso o status code ja é 200, então não preciso passar o status
     }
-
-
-
-
 
     public function destroy($identify)
     {
